@@ -1,8 +1,7 @@
+require('dotenv').config();
 const server = require('./server');
+const secrets = require('./secrets/secrets');
 
-const port = process.env.PORT || 7777;
-
-server.listen(port, () => {
-    console.log(`\n***rePlate API server listening on port ${port}***\n`);
+server.listen(secrets.port, () => {
+    console.log(`\n***rePlate API server listening on port ${secrets.port}***\n`);
 })
-
