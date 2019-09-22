@@ -7,7 +7,8 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "start": "node listen.js",
-    "server": "nodemon listen.js"
+    "server": "nodemon listen.js",
+    "build": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/Replate-Lambda-BuildWeeks/Replate-Node#readme",
   "dependencies": {
+    "cors": "^2.8.5",
     "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "knex": "^0.19.4",

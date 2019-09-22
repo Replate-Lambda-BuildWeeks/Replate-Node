@@ -8,5 +8,19 @@ restaurantRouter.get('/', (req,res) => {
     .catch(err => res.status(500).json(err.message));
 })
 
+restaurantRouter.delete('/:id', (req,res) => {
+    const {id} = req.params;
+    dbHelper.remove('restaurants', id)
+    .then((one) => {
+        if (one) {
+            console.log('delete response', resp);
+            res.status(202).json({deleted: `restaurant with id ${id} deleted`})
+        } else {
+            res.status(404).json({error : `restaurant with id ${id} not found in the database`})
+        }
+    })
+    .catch(err => res.status(500).json(err.message));
+})
+
 
 module.exports = restaurantRouter;

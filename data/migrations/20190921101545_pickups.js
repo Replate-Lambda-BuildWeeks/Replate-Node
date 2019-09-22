@@ -6,7 +6,7 @@ exports.up = function(knex) {
       tbl.string('quantity',128).notNullable();
       tbl.integer('volunteer_id').unsigned().references('id').inTable('volunteers');
       tbl.integer('restaurant_id').unsigned().references('id').inTable('restaurants');
-      tbl.integer('location_id').unsigned().references('id').inTable('locations');
+      tbl.integer('location_id').unsigned().references('id').inTable('locations').onDelete('CASCADE');
       tbl.integer('nonprofit_id').unsigned().references('id').inTable('nonprofits');
   })
 };
