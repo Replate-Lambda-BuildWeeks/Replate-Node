@@ -7,11 +7,9 @@ BASE_URL = http://0d43ca75.ngrok.io/
 
 /locations
 available methods: GET, POST
-
-Sample Location Object:
 <code>
 {
-	"location": "sanasdf"
+	"location": "san jose"
 }
 </code>
 
@@ -20,6 +18,11 @@ available methods: GET, PUT, DELETE
 
 /restaurants
 available methods: GET, POST
+<code>
+{
+"restaurant_name" : "Flower Child"
+}
+</code>
 
 /restaurants/:id
 available methods: GET, PUT, DELETE
