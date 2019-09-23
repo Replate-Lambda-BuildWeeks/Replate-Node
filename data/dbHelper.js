@@ -31,11 +31,25 @@ function getOne(table,id) {
 }
 
 function add(table, data) {
-    return db(table).insert(data)
-    .then( ([id]) => {
-        console.log(id);
-        return getOne(table,id)
-    })
+
+    const idObj = {restID : data.restaurant_id, volID : data.volunteer_id};
+
+    switch(table) {
+        case 'pickups':
+            return db(table).insert(data)
+            .then(([last]) => {
+                console.log('added', last);
+                return getOne(table,idObj)
+            })
+
+        default : 
+            return db(table).insert(data)
+            .then( ([id]) => {
+                console.log('added', id);
+                return getOne(table,id);
+            })
+    }
+    
 }
 
 function modify(table,id,data) {
