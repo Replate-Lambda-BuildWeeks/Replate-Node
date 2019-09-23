@@ -1,6 +1,7 @@
 const express = require('express');
 const pickupRouter = express.Router();
 const dbHelper = require('../data/dbHelper');
+const {isEmpty} = require('../utils/utilities');
 
 pickupRouter.get('/', (req,res) => {
     dbHelper.getAll('pickups')
@@ -9,15 +10,17 @@ pickupRouter.get('/', (req,res) => {
 })
 
 pickupRouter.get('/:restID/:volID', (req,res) => {
-    console.log(req.params);
-    const idObj = req.params;
-    
+    console.log('in the pickup router single');
+    const {idObj} = req.params;
+    console.log(idObj);
     dbHelper.getOne('pickups',idObj)
-    .then(pickup => {
-        if (pickup) {
-            res.status(200).json(pickup);
+    .then(([pickup]) => {
+        console.log('pickup', pickup);
+        console.log('isEmpty pickup', isEmpty(pickup));
+        if (isEmpty(pickup)) {
+            res.status(404).json({missing: `no pickup with restaurant_id ${idObj.restID} and volunteer_id ${idObj.volID} found in the database....`})
         } else {
-            res.status(404).json({missing: `pickup with id ${id} not found in the database`})
+            res.status(200).json(pickup);
         }
     })
     .catch(err => res.status(500).json(err.message))
