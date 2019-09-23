@@ -8,6 +8,13 @@ restaurantRouter.get('/', (req,res) => {
     .catch(err => res.status(500).json(err.message));
 })
 
+restaurantRouter.get('/:id', (req,res) => {
+    const {id} = req.params;
+    dbHelper.getOne('restaurants', id )
+    .then(restaurant => res.status(201).json(restaurant))
+    .catch(err => res.status(500).json(err.message));
+})
+
 restaurantRouter.delete('/:id', (req,res) => {
     const {id} = req.params;
     dbHelper.remove('restaurants', id)

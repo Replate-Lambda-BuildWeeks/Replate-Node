@@ -1,6 +1,5 @@
 // Update with your config settings.
 const secrets = require('./secrets/secrets');
-console.log(secrets.rds_connection);
 
 module.exports = {
 

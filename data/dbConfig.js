@@ -3,7 +3,7 @@ const knexfile = require('../knexfile');
 const secrets = require('../secrets/secrets');
 
 // const db = knex(knexfile[secrets.nodeEnv]);
-const db = knex(knexfile['testing']);
+const db = knex(knexfile['development']);
 
 module.exports = db;
 

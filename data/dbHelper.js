@@ -13,6 +13,8 @@ function getAll(table) {
 }
 
 function getOne(table,id) {
+    console.log(table,id);
+    
     return db.select('*').from(table).where('id',id).first()
 }
 
