@@ -27,6 +27,7 @@ function add(table, data) {
 }
 
 function modify(table,id,data) {
+    console.log('data in modify', data);
     return db.select('*').from(table).where('id',id).update(data)
     .then(num => {
         if (num) {
@@ -38,8 +39,9 @@ function modify(table,id,data) {
 }
 
 function remove (table,id) {
-    console.log(table, 'table');
-   return db(table).del().where({id})
+   console.log(table, 'table');
+   console.log('id in delete', id);
+   return db(table).del().where('id',id)
 }
 
 
