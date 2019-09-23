@@ -8,6 +8,13 @@ BASE_URL = http://0d43ca75.ngrok.io/
 /locations
 available methods: GET, POST
 
+Sample Location Object:
+<code>
+{
+	"location": "sanasdf"
+}
+</code>
+
 /locations/:id
 available methods: GET, PUT, DELETE
 
