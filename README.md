@@ -14,12 +14,14 @@ available methods: GET, POST
 </code>
 
 /auth/login
-methods : post
+<strong>post </strong>
 sample request object : 
+<code>
 {
 "username" : user1
 "password": pass
 }
+</code>
 
 returns the user object with a JWT token.
 
