@@ -49,25 +49,45 @@ function add(table, data) {
                 return getOne(table,id);
             })
     }
-    
 }
 
 function modify(table,id,data) {
-    console.log('data in modify', data);
-    return db.select('*').from(table).where('id',id).update(data)
-    .then(num => {
-        if (num) {
-            return getOne(table,id)
-        } else {
-            return null;
-        }
-    })
+    console.log('data in modify', data, 'id', id);
+
+    switch(table) {
+
+        case 'pickups':
+            console.log('modiy table case triggered in dbHelper');
+            return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID}).update(data).then(num => {
+                if (num) {
+                    return getOne(table,id)
+                }
+            })
+
+        default : 
+            return db.select('*').from(table).where('id',id).update(data)
+            .then(num => {
+                if (num) {
+                    return getOne(table,id)
+                } else {
+                    return null;
+                }
+            })
+            .catch(err => res.status(500).json(err.message));   
+    }
 }
 
 function remove (table,id) {
    console.log(table, 'table');
    console.log('id in delete', id);
-   return db(table).del().where('id',id)
+
+   switch (table) {
+       case 'pickups' : 
+        return db(table).del().where({restaurant_id : id.restID, volunteer_id: id.volID })
+       
+       default : 
+        return db(table).del().where('id',id)
+   }
 }
 
 

@@ -36,6 +36,31 @@ pickupRouter.post('/', (req,res) => {
     });
 })
 
+pickupRouter.put('/', (req,res) => {
+    const idObj = {restID : req.body.restaurant_id, volID: req.body.volunteer_id}
+    const modPick = req.body;
+
+    dbHelper.modify('pickups',idObj,modPick)
+    .then(([pick]) => {
+        console.log(pick);
+        res.status(202).json(pick)
+    })
+    .catch(err => res.status(500).json(err.message))
+})
+
+pickupRouter.delete('/:restID/:volID', (req,res) => {
+    const idObj = req.params;
+    dbHelper.remove('pickups', idObj)
+    .then( one => {
+        if (one) {
+            res.status(200).json({deleted : `pickup with restaurant id ${idObj.restID} and volunteer_id ${idObj.volID} deleted... `});
+        } else {
+            res.status(404).json({missing : `pickup with restaurant id ${idObj.restID} and volunteer_id ${idObj.volID} not found in the database...`})
+        }
+    })
+    .catch(err => res.status(500).json(err.message))
+})
+
 
 module.exports = pickupRouter;
 
