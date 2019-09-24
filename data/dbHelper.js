@@ -1,4 +1,6 @@
 const db = require('./dbConfig');
+const bcrypt = require('bcryptjs');
+
 
 module.exports = {
     getAll,
@@ -33,15 +35,16 @@ function getOne(table,id) {
 
 function add(table, data) {
 
-    const idObj = {restID : data.restaurant_id, volID : data.volunteer_id};
-
     switch(table) {
         case 'pickups':
+            const idObj = {restID : data.restaurant_id, volID : data.volunteer_id};
             return db(table).insert(data)
             .then(([last]) => {
                 console.log('added', last);
                 return getOne(table,idObj)
             })
+        case 'users':
+
 
         default : 
             return db(table).insert(data)
@@ -91,8 +94,23 @@ function remove (table,id) {
    }
 }
 
-function login(credentials) {
-    return db.select('*').from('users').where('username',credentials.username)
+async function login(credentials) {
+
+    const user = await db.select('*').from('users').where({username: credentials.username}).first();
+    
+    if (!user) {
+        return null;
+    }
+    const hash = user.password;
+ 
+    console.log('user', user, 'hash', hash);
+
+    if (bcrypt.compareSync(credentials.password, hash)) {
+        return user;
+    } else {
+        return null;
+    }
+    // return db.select('*').from('users').where({username: credentials.username, password: credentials.password})
 }
 
 
