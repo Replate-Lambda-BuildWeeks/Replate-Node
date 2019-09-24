@@ -3,7 +3,7 @@ The Backend for the Lambda School Build Weeks Project, build with Node and Expre
 
 <h2>Not all methods are functional.  API base functionality still being built.  
 
-BASE_URL = http://0b187b3b.ngrok.io
+BASE_URL =  http://0bbfee1e.ngrok.io
 
 /locations
 available methods: GET, POST
