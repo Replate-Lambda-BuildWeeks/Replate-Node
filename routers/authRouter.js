@@ -1,7 +1,7 @@
 const express = require('express');
 const dbHelper = require('../data/dbHelper');
 const {createJWT, authenticate} = require('../utils/utilities');
-// const bcrypt = require('bcryptjs');
+const bcrypt = require('bcryptjs');
 
 const authRouter = express.Router();
 
