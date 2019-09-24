@@ -14,8 +14,20 @@ function getAll(table) {
 
 function getOne(table,id) {
     console.log(table,id);
+
+    switch (table) {
+        case 'pickups':
+            return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID});
+        default : 
+            return db.select('*').from(table).where('id',id).first()
+    }
+
+    // if (table === 'pickups') {
+    //     return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID})
+    //     // return db.raw(`select * from pickups where restaurant_id = ${id.restID} and volunteer_id = ${id.volID}`)
+    // }
     
-    return db.select('*').from(table).where('id',id).first()
+    // return db.select('*').from(table).where('id',id).first()
 }
 
 function add(table, data) {
