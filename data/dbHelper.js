@@ -5,7 +5,8 @@ module.exports = {
     getOne,
     add, 
     modify,
-    remove
+    remove,
+    login
 }
 
 function getAll(table) {
@@ -88,6 +89,10 @@ function remove (table,id) {
        default : 
         return db(table).del().where('id',id)
    }
+}
+
+function login(credentials) {
+    return db.select('*').from('users').where('username',credentials.username)
 }
 
 
