@@ -11,7 +11,13 @@ restaurantRouter.get('/', (req,res) => {
 restaurantRouter.get('/:id', (req,res) => {
     const {id} = req.params;
     dbHelper.getOne('restaurants', id )
-    .then(restaurant => res.status(201).json(restaurant))
+    .then(restaurant => {
+        if (restaurant) {
+            res.status(201).json(restaurant)
+        } else {
+            res.status(404).json({missing: `restaurant with id ${id} not found in the database`})
+        }
+    })
     .catch(err => res.status(500).json(err.message));
 })
 
