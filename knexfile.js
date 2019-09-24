@@ -1,7 +1,6 @@
 // Update with your config settings.
 const secrets = require('./secrets/secrets');
 
-
 module.exports = {
 
   development: {
@@ -23,14 +22,32 @@ module.exports = {
     },
   },
 
+  testing : {
+    client : 'sqlite3',
+    connection: {
+      filename: './data/replatetest.sqlite3'
+    },
+    useNullAsDefault: true,
+    pool: {
+      afterCreate: (conn,done) => {
+        conn.run('PRAGMA foreign_keys = ON', done);
+      }
+    },
+    migrations: {
+      directory : './data/migrations'
+    },
+    seeds : {
+      directory : './data/seeds'
+    }
+  },
 
   production: {
     client: 'pg',
     connection: {
-      host: '127.0.0.1',
-      database: 'postgres',
+      host: secrets.DATABASE_URL,
+      database: 'replate',
       user:     'postgres',
-      password: '$dataYunas1!'
+      password: secrets.pg_pass
     },
     pool: {
       min: 2,
