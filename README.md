@@ -13,6 +13,16 @@ available methods: GET, POST
 }
 </code>
 
+/auth/login
+methods : post
+sample request object : 
+{
+"username" : user1
+"password": pass
+}
+
+returns the user object with a JWT token.
+
 /locations/:id
 available methods: GET, PUT, DELETE
 
