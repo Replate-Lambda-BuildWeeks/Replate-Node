@@ -18,7 +18,7 @@ available methods: GET, POST
 sample request object : 
 <code>
 {
-"username" : user1
+"username" : "user1",
 "password": pass
 }
 </code>
