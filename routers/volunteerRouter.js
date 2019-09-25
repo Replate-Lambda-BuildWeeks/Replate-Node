@@ -11,7 +11,7 @@ volunteerRouter.get('/', (req,res) => {
 volunteerRouter.get('/:id', (req,res) => {
     const {id} = req.params;
 
-    dbHelper.getOne('volunteers',id)
+    dbHelper.getById('volunteers',id)
     .then(vol => {
         if (vol) {
             res.status(200).json(vol);

@@ -9,9 +9,19 @@ pickupRouter.get('/', (req,res) => {
     .catch(err => res.status(500).json(err.message))
 })
 
-pickupRouter.get('/:restID/:volID', (req,res) => {
+pickupRouter.get('/:restID', (req,res) => {
+    const {restID} = req.params;
+    dbHelper.getPickups('pickups', restID)
+    .then( pickups => {
+        res.status(200).json(pickups);
+    })
+    .catch(err => res.status(500).json(err.message))
+})
+
+pickupRouter.get('/:restID/:volID', async (req,res) => {
     const idObj = req.params;
-    dbHelper.getOne('pickups',idObj)
+    
+    dbHelper.getById('pickups',idObj)
     .then(([pickup]) => {
         if (isEmpty(pickup)) {
             res.status(404).json({missing: `no pickup with combination of restaurant_id ${idObj.restID} and volunteer_id ${idObj.volID} found in the database....`})
@@ -23,10 +33,11 @@ pickupRouter.get('/:restID/:volID', (req,res) => {
 })
 
 pickupRouter.post('/', (req,res) => {
+    //requires a restaurant_id on the requesst body.  if no volunteer_id, value of null assigned.
     const newPickup = req.body;
 
     dbHelper.add('pickups', newPickup)
-    .then(pickup => {
+    .then(([pickup]) => {
         console.log('pickup', pickup);
         res.status(201).json(pickup);
     })
@@ -58,6 +69,14 @@ pickupRouter.delete('/:restID/:volID', (req,res) => {
             res.status(404).json({missing : `pickup with restaurant id ${idObj.restID} and volunteer_id ${idObj.volID} not found in the database...`})
         }
     })
+    .catch(err => res.status(500).json(err.message))
+})
+
+pickupRouter.delete('/:restID', (req,res) => {
+    const {restID} = req.params;
+
+    dbHelper.remove('pickups', restID)
+    .then(del => res.status(202).json({deleted : `${del} records associated with restaurant ${restID} were deleted from the database`}))
     .catch(err => res.status(500).json(err.message))
 })
 

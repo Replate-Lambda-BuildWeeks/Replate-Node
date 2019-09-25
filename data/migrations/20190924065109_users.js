@@ -4,6 +4,7 @@ exports.up = function(knex) {
     tbl.increments();
     tbl.string('username',32).unique().notNullable();
     tbl.string('password',128).notNullable();
+    tbl.string('type',9).notNullable().defaultTo('volunteer');
   })
 };
 

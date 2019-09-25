@@ -4,7 +4,9 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
     getAll,
-    getOne,
+    getById,
+    getPickups,
+    getByFood,
     add, 
     modify,
     remove,
@@ -15,12 +17,22 @@ function getAll(table) {
    return db.select('*').from(table);
 }
 
-function getOne(table,id) {
-    console.log(table,id);
+function getPickups(table,id) {
+    // return db.select('*').from(table).where({'restaurant_id' : id, 'volunteer_id' : null});
+    return db.select('*').from(table).where({'restaurant_id' : id});
+}
+
+function getByFood(table,food) {
+    return db.select('*').from(table).where('food',food);
+}
+
+function getById(table,id) {
 
     switch (table) {
         case 'pickups':
-            return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID});
+              //from pickups table, its not really an id, its a food.
+            // return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID})
+            return db.select('*').from(table).where({restaurant_id : id.restID, volunteer_id : id.volID});
         default : 
             return db.select('*').from(table).where('id',id).first()
     }
@@ -37,14 +49,15 @@ function add(table, data) {
 
     switch(table) {
         case 'pickups':
-            const idObj = {restID : data.restaurant_id, volID : data.volunteer_id};
+            if (!data.volunteer_id) {
+                data.volunteer_id = null;
+            }
+            // const idObj = {restID : data.restaurant_id, volID : data.volunteer_id};
             return db(table).insert(data)
             .then(([last]) => {
                 console.log('added', last);
-                return getOne(table,idObj)
+                return getOne(table,data.food)
             })
-        case 'users':
-
 
         default : 
             return db(table).insert(data)
@@ -87,6 +100,10 @@ function remove (table,id) {
 
    switch (table) {
        case 'pickups' : 
+       if (!id.volID) {
+           id = {restID : id, volID : null}
+           console.log(id);
+       }
         return db(table).del().where({restaurant_id : id.restID, volunteer_id: id.volID })
        
        default : 
@@ -96,21 +113,24 @@ function remove (table,id) {
 
 async function login(credentials) {
 
-    const user = await db.select('*').from('users').where({username: credentials.username}).first();
-    
-    if (!user) {
-        return null;
-    }
-    const hash = user.password;
- 
-    console.log('user', user, 'hash', hash);
+    const {username, password} = credentials;
 
-    if (bcrypt.compareSync(credentials.password, hash)) {
-        return user;
+    const volunteer = await db.select('*').from('volunteers').where({username}).first();
+    
+    if (volunteer) {
+        const hash = volunteer.password;
+        console.log('volunteer', volunteer, 'hash', hash);
+        return bcrypt.compareSync(password, hash) && volunteer;
+        
     } else {
-        return null;
-    }
-    // return db.select('*').from('users').where({username: credentials.username, password: credentials.password})
+        const restaurant = await db.select('*').from('restaurants').where({username}).first();
+        
+        if (restaurant) {
+            const hash = restaurant.password;
+            console.log('restaurant', restaurant, 'hash', hash);
+            return bcrypt.compareSync(password, hash) && restaurant;
+        }
+    }   
 }
 
 

@@ -17,13 +17,24 @@ authRouter.get('/users', authenticate, (req,res) => {
 
 authRouter.post('/register', (req,res) => {
     const creds = req.body;
-    if (!creds.username || !creds.password) {
-        res.status(400).json({missing : 'please send over a username and password'})
+    let {username, password} = req.body;
+    let table;
+
+    for (let key in creds) {
+        if (key.includes('_name')) {
+           table = key.split('_')[0] + 's';
+           console.log(table);
+        }
+    }
+
+    if (!username || !password) {
+        res.status(400).json({missing : 'please send over a username and password...'})
+        return;
     }
 
     creds.password = bcrypt.hashSync(creds.password,10);
-
-    dbHelper.add('users',creds)
+ 
+    dbHelper.add(table,creds)
     .then(user => {
         const token = createJWT(user);
         user.token = token;
@@ -43,6 +54,8 @@ authRouter.post('/login', (req,res) => {
         if (user) {
             const token =  createJWT(user);
             user.token = token;
+            delete user.username;
+            delete user.password;
              res.status(202).json(user);
         } else {
             res.status(403).json({unauthorized: `${creds.username} has invalid credentials...`})

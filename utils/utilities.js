@@ -2,10 +2,6 @@
 const jwt = require('jsonwebtoken');
 const secrets = require('../secrets/secrets');
 
-console.log(secrets);
-
-
-
 function isEmpty(obj) {
     for (let key in obj) {
         if (obj.hasOwnProperty(key)) {
