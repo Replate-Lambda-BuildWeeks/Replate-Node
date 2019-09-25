@@ -18,9 +18,10 @@ pickupRouter.get('/:restID', (req,res) => {
     .catch(err => res.status(500).json(err.message))
 })
 
-pickupRouter.get('/:restID/:volID', (req,res) => {
+pickupRouter.get('/:restID/:volID', async (req,res) => {
     const idObj = req.params;
-    dbHelper.getOne('pickups',idObj)
+    
+    dbHelper.getById('pickups',idObj)
     .then(([pickup]) => {
         if (isEmpty(pickup)) {
             res.status(404).json({missing: `no pickup with combination of restaurant_id ${idObj.restID} and volunteer_id ${idObj.volID} found in the database....`})

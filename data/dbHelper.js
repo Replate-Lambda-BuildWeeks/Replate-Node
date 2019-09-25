@@ -4,8 +4,9 @@ const bcrypt = require('bcryptjs');
 
 module.exports = {
     getAll,
-    getOne,
+    getById,
     getPickups,
+    getByFood,
     add, 
     modify,
     remove,
@@ -17,15 +18,21 @@ function getAll(table) {
 }
 
 function getPickups(table,id) {
-    return db.select('*').from(table).where({'restaurant_id' : id, 'volunteer_id' : null});
+    // return db.select('*').from(table).where({'restaurant_id' : id, 'volunteer_id' : null});
+    return db.select('*').from(table).where({'restaurant_id' : id});
 }
 
-function getOne(table,id) {
-    console.log(table,id);
+function getByFood(table,food) {
+    return db.select('*').from(table).where('food',food);
+}
+
+function getById(table,id) {
 
     switch (table) {
         case 'pickups':
-            return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID})
+              //from pickups table, its not really an id, its a food.
+            // return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID})
+            return db.select('*').from(table).where({restaurant_id : id.restID, volunteer_id : id.volID});
         default : 
             return db.select('*').from(table).where('id',id).first()
     }
@@ -45,11 +52,11 @@ function add(table, data) {
             if (!data.volunteer_id) {
                 data.volunteer_id = null;
             }
-            const idObj = {restID : data.restaurant_id, volID : data.volunteer_id};
+            // const idObj = {restID : data.restaurant_id, volID : data.volunteer_id};
             return db(table).insert(data)
             .then(([last]) => {
                 console.log('added', last);
-                return getOne(table,idObj)
+                return getOne(table,data.food)
             })
 
         default : 
