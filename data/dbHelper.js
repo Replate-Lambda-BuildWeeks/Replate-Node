@@ -85,7 +85,7 @@ function modify(table,id,data) {
             return db.select('*').from(table).where('id',id).update(data)
             .then(num => {
                 if (num) {
-                    return getOne(table,id)
+                    return getById(table,id)
                 } else {
                     return null;
                 }
