@@ -1,9 +1,14 @@
 # Replate-Node
 The Backend for the Lambda School Build Weeks Project, build with Node and Express.  September, 2019
 
+API Documentation : 
+http://replate.docs.lambdaschool.me
+alternate URL : https://documenter.getpostman.com/view/7448226/SVn2PbQL
+
 <h2>Not all methods are functional.  API base functionality still being built.  
 
-BASE_URL =  http://0bbfee1e.ngrok.io
+<strong>BASE_URL = <a>http://replate.api.lambdaschool.me </a> </strong>
+alternate URL : http://0bbfee1e.ngrok.io
 
 /locations
 available methods: GET, POST
