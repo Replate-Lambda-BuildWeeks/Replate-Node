@@ -32,34 +32,8 @@ authRouter.post('/register', (req,res) => {
         return;
     }
 
-    // if (type.toLowerCase() !== 'volunteer' && type.toLowerCase() !== 'business') {
-    //     res.status(400).json({missing: 'please specify the correct type of user, volunteer or business'})
-    //     return;
-    // }
-
-
-
-    // if (!creds[restaurant_name] || !creds[volunteer_name]) {
-    //     res.status(400).json({missing: 'please provide the name of yourself or your business'})
-    //     return;
-    // }
     creds.password = bcrypt.hashSync(creds.password,10);
  
-    // type === 'volunteer' ? table = 'volunteers' : table = 'restaurants';
-
-
-
-
-    // console.log(table);
-    // console.log(`${creds.type}_name`);
-    // console.log(creds.type);
-    // console.log(creds.type === `${creds.type}_name`);
-    // creds[`${creds.type}_name`] =
-    // if (creds[`${creds.type}_name`])
-
-    // delete creds.type;
-    console.log(creds);
-
     dbHelper.add(table,creds)
     .then(user => {
         const token = createJWT(user);
@@ -80,6 +54,8 @@ authRouter.post('/login', (req,res) => {
         if (user) {
             const token =  createJWT(user);
             user.token = token;
+            delete user.username;
+            delete user.password;
              res.status(202).json(user);
         } else {
             res.status(403).json({unauthorized: `${creds.username} has invalid credentials...`})

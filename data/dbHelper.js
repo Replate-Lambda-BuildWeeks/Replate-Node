@@ -96,20 +96,27 @@ function remove (table,id) {
 
 async function login(credentials) {
 
-    const user = await db.select('*').from('users').where({username: credentials.username}).first();
-    
-    if (!user) {
-        return null;
-    }
-    const hash = user.password;
- 
-    console.log('user', user, 'hash', hash);
+    const {username, password} = credentials;
 
-    if (bcrypt.compareSync(credentials.password, hash)) {
-        return user;
+    const volunteer = await db.select('*').from('volunteers').where({username}).first();
+    
+    if (volunteer) {
+        const hash = volunteer.password;
+        console.log('volunteer', volunteer, 'hash', hash);
+        return bcrypt.compareSync(password, hash) && volunteer;
+        
     } else {
-        return null;
+        const restaurant = await db.select('*').from('restaurants').where({username}).first();
+        
+        if (restaurant) {
+            const hash = restaurant.password;
+            console.log('restaurant', restaurant, 'hash', hash);
+            return bcrypt.compareSync(password, hash) && restaurant;
+        }
+    
     }
+
+    
     // return db.select('*').from('users').where({username: credentials.username, password: credentials.password})
 }
 
