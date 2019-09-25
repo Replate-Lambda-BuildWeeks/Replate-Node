@@ -4,7 +4,10 @@ const dbHelper = require('../data/dbHelper');
 
 volunteerRouter.get('/', (req,res) => {
     dbHelper.getAll('volunteers')
-    .then(volunteers => res.status(200).json(volunteers))
+    .then(volunteers => {
+        volunteers.forEach(vol => {delete vol.password})
+        res.status(200).json(volunteers)
+    })
     .catch(err => res.status(500).json(err.message))
 })
 
@@ -14,6 +17,7 @@ volunteerRouter.get('/:id', (req,res) => {
     dbHelper.getById('volunteers',id)
     .then(vol => {
         if (vol) {
+            delete vol.password;
             res.status(200).json(vol);
         } else {
             res.status(404).json({missing: `volunteer with id ${id} not found in the database...`})
@@ -36,7 +40,8 @@ volunteerRouter.put('/:id', (req,res) => {
     dbHelper.modify('volunteers',id,modVol)
     .then(vol => {
         if (vol) {
-            res.status(201).json(vol);
+            delete vol.password;
+            res.status(202).json(vol);
         } else {
             res.status(404).json({missing : `volunteer with id ${id} not found in the databae`})
         }

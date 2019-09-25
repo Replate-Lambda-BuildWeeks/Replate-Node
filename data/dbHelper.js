@@ -27,7 +27,7 @@ function getByFood(table,food) {
 }
 
 function getById(table,id) {
-
+    console.log(table,id, 'table and id in getById');
     switch (table) {
         case 'pickups':
               //from pickups table, its not really an id, its a food.
@@ -60,6 +60,7 @@ function add(table, data) {
             })
 
         default : 
+            console.log('data in insert', data, table);
             return db(table).insert(data)
             .then( ([id]) => {
                 console.log('added', id);

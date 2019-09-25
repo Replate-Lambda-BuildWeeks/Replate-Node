@@ -16,17 +16,22 @@ authRouter.get('/users', authenticate, (req,res) => {
 })
 
 authRouter.post('/register', (req,res) => {
+    console.log('request object', req.body);
     const creds = req.body;
     let {username, password} = req.body;
     let table;
 
     for (let key in creds) {
         if (key.includes('_name')) {
-           table = key.split('_')[0] + 's';
+           table = key.split('_')[0] + 's'; //determining the table to post to depneding on the _name property of the request object.  either restaurant_id or volunteer_id
            console.log(table);
         }
     }
-
+        if (!table) {
+                res.status(400).json({bad_data : "must include a restaurant_name or volunteer_name "});
+                return;
+        }
+        
     if (!username || !password) {
         res.status(400).json({missing : 'please send over a username and password...'})
         return;
