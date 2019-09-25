@@ -17,13 +17,50 @@ authRouter.get('/users', authenticate, (req,res) => {
 
 authRouter.post('/register', (req,res) => {
     const creds = req.body;
-    if (!creds.username || !creds.password) {
-        res.status(400).json({missing : 'please send over a username and password'})
+    let {username, password} = req.body;
+    let table;
+
+    for (let key in creds) {
+        if (key.includes('_name')) {
+           table = key.split('_')[0] + 's';
+           console.log(table);
+        }
     }
 
-    creds.password = bcrypt.hashSync(creds.password,10);
+    if (!username || !password) {
+        res.status(400).json({missing : 'please send over a username and password...'})
+        return;
+    }
 
-    dbHelper.add('users',creds)
+    // if (type.toLowerCase() !== 'volunteer' && type.toLowerCase() !== 'business') {
+    //     res.status(400).json({missing: 'please specify the correct type of user, volunteer or business'})
+    //     return;
+    // }
+
+
+
+    // if (!creds[restaurant_name] || !creds[volunteer_name]) {
+    //     res.status(400).json({missing: 'please provide the name of yourself or your business'})
+    //     return;
+    // }
+    creds.password = bcrypt.hashSync(creds.password,10);
+ 
+    // type === 'volunteer' ? table = 'volunteers' : table = 'restaurants';
+
+
+
+
+    // console.log(table);
+    // console.log(`${creds.type}_name`);
+    // console.log(creds.type);
+    // console.log(creds.type === `${creds.type}_name`);
+    // creds[`${creds.type}_name`] =
+    // if (creds[`${creds.type}_name`])
+
+    // delete creds.type;
+    console.log(creds);
+
+    dbHelper.add(table,creds)
     .then(user => {
         const token = createJWT(user);
         user.token = token;

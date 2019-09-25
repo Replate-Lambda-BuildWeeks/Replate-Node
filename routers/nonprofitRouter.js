@@ -66,13 +66,5 @@ nonprofitRouter.delete('/:id', (req,res) => {
     .catch(err => res.status(500).json(err.message))
 })
 
-
-
-
-
-
-
-
-
 module.exports = nonprofitRouter;
 
