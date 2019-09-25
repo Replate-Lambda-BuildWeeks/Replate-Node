@@ -23,11 +23,5 @@ server.get('/', (req,res) => {
     res.send('<h1>Welcome to the rePlate API server.');
 });
 
-// server.delete('/restaurants/:id', (req,res) => {
-//     dbHelper.remove('restaurants',req.params.id)
-//     .then(() => res.status(204).json({deleted: `restaurant with id ${id} was deleted from the database`}))
-//     .catch(err => res.status(500).json(err.message))
-// })
-
 module.exports = server;
 
