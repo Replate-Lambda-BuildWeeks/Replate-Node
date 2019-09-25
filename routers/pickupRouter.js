@@ -32,6 +32,7 @@ pickupRouter.get('/:restID/:volID', (req,res) => {
 })
 
 pickupRouter.post('/', (req,res) => {
+    //requires a restaurant_id on the requesst body.  if no volunteer_id, value of null assigned.
     const newPickup = req.body;
 
     dbHelper.add('pickups', newPickup)

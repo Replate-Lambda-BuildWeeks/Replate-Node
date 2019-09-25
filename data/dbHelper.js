@@ -17,7 +17,7 @@ function getAll(table) {
 }
 
 function getPickups(table,id) {
-    return db.select('*').from(table).where('restaurant_id',id);
+    return db.select('*').from(table).where({'restaurant_id' : id, 'volunteer_id' : null});
 }
 
 function getOne(table,id) {
