@@ -25,6 +25,26 @@ sample request object :
 
 returns the user object with a JWT token.
 
+/auth/register
+<strong>POST </strong>
+sample request object : 
+<code>
+{
+"restaurant_name" : "wendy's
+"username" : "wendy",
+"password": pass
+}
+</code>
+
+<code>
+{
+"volunteer_name" : "Johnny"
+"username" : "wendy",
+"password": pass
+}
+</code>
+
+
 /locations/:id
 available methods: GET, PUT, DELETE
 
