@@ -56,14 +56,14 @@ function add(table, data) {
             return db(table).insert(data)
             .then(([last]) => {
                 console.log('added', last);
-                return getOne(table,data.food)
+                return getByFood(table,data.food)
             })
 
         default : 
             return db(table).insert(data)
             .then( ([id]) => {
                 console.log('added', id);
-                return getOne(table,id);
+                return getById(table,id);
             })
     }
 }
@@ -77,7 +77,7 @@ function modify(table,id,data) {
             console.log('modiy table case triggered in dbHelper');
             return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID}).update(data).then(num => {
                 if (num) {
-                    return getOne(table,id)
+                    return getById(table,id)
                 }
             })
 
