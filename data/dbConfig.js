@@ -7,4 +7,3 @@ const environment = process.env.DB_ENV || 'development';
 const db = knex(knexfile[environment]);
 
 module.exports = db;
-
