@@ -11,7 +11,7 @@ locationRouter.get('/', (req,res) => {
 
 locationRouter.get('/:id', (req,res) => {
     const id = req.params.id;
-    dbHelper.getOne('locations',id)
+    dbHelper.getById('locations',id)
     .then(location => {
         if (location) {
             res.status(200).json(location);
@@ -57,7 +57,7 @@ locationRouter.put('/:id', (req,res) => {
 locationRouter.delete('/:id', (req,res) => {
     const {id} = req.params;
     dbHelper.remove('locations',req.params.id)
-    .then(() => res.status(204).json({deleted: `location with id ${id} has been deleted.`}))
+    .then(() => res.status(202).json({deleted: `location with id ${id} has been deleted.`}))
     .catch(err => res.status(500).json(err.message))
 })
 

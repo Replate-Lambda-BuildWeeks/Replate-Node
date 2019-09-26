@@ -11,7 +11,7 @@ nonprofitRouter.get('/', (req,res) => {
 })
 
 nonprofitRouter.get('/:id', (req,res) => {
-    dbHelper.getOne('nonprofits', req.params.id)
+    dbHelper.getById('nonprofits', req.params.id)
     .then(nonprofit => {
         if (nonprofit) {
             res.status(200).json(nonprofit)
