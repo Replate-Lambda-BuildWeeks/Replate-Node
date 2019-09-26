@@ -5,19 +5,13 @@ const superRequest = supertest(server);
 require('dotenv').config();
 
 describe('environmental variables', () => {
-    it('PORT_ENV', () => {
+    it('PORT', () => {
         expect(process.env.PORT).toEqual('7777');
     });
 
     it('DB_ENV is testing', () => {
         expect(process.env.DB_ENV).toBe('testing');
     })
-
-    it("database environment is development", () => {
-        
-    })
-
-
 })
 
     describe('Utility functions', () => {

@@ -1,9 +1,12 @@
 const knex = require('knex');
 const knexfile = require('../knexfile');
 const secrets = require('../secrets/secrets');
+require('dotenv').config();
 
 // const db = knex(knexfile[secrets.nodeEnv]);
-const environment = process.env.DB_ENV || 'development';
+// || 'development';
+
+const environment = process.env.DB_ENV;
 const db = knex(knexfile[environment]);
 
 module.exports = db;
