@@ -7,8 +7,7 @@
     "test": "jest",
     "test:watch": "cross-env DB_ENV=testing jest --watch",
     "start": "node listen.js",
-    "server": "nodemon listen.js",
-    "build": "npm run build"
+    "server": "nodemon listen.js"
   },
   "repository": {
     "type": "git",
