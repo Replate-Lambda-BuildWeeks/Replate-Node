@@ -43,6 +43,7 @@ authRouter.post('/register', (req,res) => {
     .then(user => {
         const token = createJWT(user);
         user.token = token;
+        delete user.password;
         res.status(201).json(user);
     })
     .catch(err => res.status(500).json(err.message));
