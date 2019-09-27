@@ -8,8 +8,6 @@ require('dotenv').config();
 
 //NODE_ENV is automatically recognized by heroku to be set to production.
 
-
-
 const environment = process.env.DB_ENV;
 const db = knex(knexfile[environment]);
 
