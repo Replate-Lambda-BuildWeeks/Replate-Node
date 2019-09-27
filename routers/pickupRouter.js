@@ -47,16 +47,28 @@ pickupRouter.post('/', (req,res) => {
     });
 })
 
-pickupRouter.put('/', (req,res) => {
+pickupRouter.put('/', async (req,res) => {
     const idObj = {restID : req.body.restaurant_id, volID: req.body.volunteer_id}
     const modPick = req.body;
 
+    if (!req.body.restaurant_id) {
+        res.status(400).json({missing : "please provide a valide restaurant_id on the request object..."})
+        return;
+    }
+
     dbHelper.modify('pickups',idObj,modPick)
-    .then(([pick]) => {
-        console.log(pick);
-        res.status(202).json(pick)
+    .then((pick) => {
+        console.log(pick, "modded pickup");
+        if (pick) {
+            res.status(202).json(pick[0]);
+        } else {
+            res.status(404).json({missing : `could not modify pickup with restaurant_id ${idObj.restID} and volunteer_id ${idObj.volID}.  One of ids do not exist in the database.  Not found....`})
+        }
     })
-    .catch(err => res.status(500).json(err.message))
+    .catch(err => {
+        console.log(err.message);
+        res.status(500).json({missing: `could not update pickup. restaurant_id of ${idObj.restID} or volunteer_id of ${idObj.volID} not in database.`,database_error : err.message})
+    })
 })
 
 pickupRouter.delete('/:restID/:volID', (req,res) => {

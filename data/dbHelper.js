@@ -70,15 +70,18 @@ function add(table, data) {
 }
 
 function modify(table,id,data) {
+
     console.log('data in modify', data, 'id', id);
 
     switch(table) {
-
         case 'pickups':
             console.log('modiy table case triggered in dbHelper');
-            return db.select('*').from(table).where({restaurant_id: id.restID, volunteer_id: id.volID}).update(data).then(num => {
+            return db.select('*').from(table).where({volunteer_id: id.volID}).update(data).then(num => {
+                console.log('num from database modiffy', num);
                 if (num) {
                     return getById(table,id)
+                } else {
+                    return null;
                 }
             })
 
