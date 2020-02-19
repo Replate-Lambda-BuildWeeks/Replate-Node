@@ -7,7 +7,7 @@ exports.up = function(knex) {
         tbl.string('address', 128);
         tbl.string('city', 32);
         tbl.string('zip', 9);
-        tbl.string('phone',10);
+        tbl.string('phone',12);
         tbl.string('email',32);
         tbl.string('username', 32).notNullable().unique();
         tbl.string('password').notNullable();
