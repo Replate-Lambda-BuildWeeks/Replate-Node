@@ -34,7 +34,25 @@ pickupRouter.get('/:restID/:volID', async (req,res) => {
 
 pickupRouter.post('/', (req,res) => {
     //requires a restaurant_id on the requesst body.  if no volunteer_id, value of null assigned.
+    const {food,quantity,restaurant_id,volunteer_id} = req.body;
+    if (!food) {
+        res.status(400).send('food is a required field.');
+        return;
+    } 
+    if (!quantity) {
+        res.status(400).send('quantity not specified');
+        return;
+    }
+    if (!restaurant_id) {
+        res.status(400).send('restaurant_id is a required field.');
+        return;
+    } if (!volunteer_id) {
+        res.status(400).send('volunteer_id is a required field.');
+        return;
+    }
+
     const newPickup = req.body;
+    console.log(newPickup)
 
     dbHelper.add('pickups', newPickup)
     .then(([pickup]) => {

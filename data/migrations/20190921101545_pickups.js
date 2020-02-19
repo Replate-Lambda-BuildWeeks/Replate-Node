@@ -1,8 +1,9 @@
 
 exports.up = function(knex) {
   return knex.schema.createTable('pickups', tbl => {
-      tbl.primary(['volunteer_id', 'restaurant_id']);
-      tbl.string('food',128).notNullable().unique();
+      // tbl.primary(['volunteer_id', 'restaurant_id']);
+      tbl.increments('pickup_id');
+      tbl.string('food',128).notNullable();
       tbl.string('quantity',128).notNullable();
       tbl.string('date',10);
       tbl.string('time',20);
